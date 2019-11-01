@@ -1,0 +1,34 @@
+<% potins = @user.potins %>
+
+</br></br>
+<div class='container text-center'>
+  <h1 class="display-5">Vous êtes sur la page personnelle de <%= @user.first_name %> <%= @user.last_name %>.</h1>
+</div></br></br>
+  
+  <ul>
+    <li><%= @user.first_name %> est de la ville de <%= link_to @user.city.name, city_path(@id = @user.city.id) %> et a <%= @user.age %> ans.</li>
+    <li>Se décrit avec ces quelques mots "<%= @user.description %>".</li>
+    <li>Pour tout contact, utiliser cette adresse: "<%= @user.email %>".</li> 
+    </br>
+    <li>Voici l'ensemble des potins de <%= @user.first_name %>:</li>
+  </ul>
+
+</div></br></br>
+
+<div class='container text-center'>
+  <div class='card-deck'>
+    <div class="row">
+        <% potins.each do |potin| %> 
+          <div class="card border-primary mb-3" style="min-width: 20rem;">
+            <div class="card-body">
+                <h5 class="card-title"><%= potin.title %></h5>
+                <p class="card-text"><%= potin.content %></p>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted"><%= potin.created_at.strftime("Créé le %d/%m/%Y") %>.</small>
+            </div>    
+          </div>
+        <% end %>
+    </div>
+  </div>
+</div>

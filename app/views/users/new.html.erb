@@ -1,0 +1,98 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:fail_password] %> 
+    <div class="alert alert-danger" role="alert">
+      Mauvais mot de passe
+    </div>
+  <% end %>
+</div>
+
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:fail] %> 
+    <div class="alert alert-danger" role="alert">
+      Une erreur s'est produite, veuillez réessayer!
+    </div>
+  <% end %>
+</div>
+
+<div class="container">
+	<h4 class="card-title mt-3 text-center">Se créer un compte</h4>
+<hr>
+
+
+<%= form_tag "/users", method: "post" do %>
+
+	<div class="card bg-light">
+	<article class="card-body mx-auto" style="max-width: 400px;">
+
+		<form>
+		<div class="form-group input-group">
+			<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+			 </div>
+	        <input name="first_name" class="form-control" placeholder="Pénom" type="text">
+	    </div> 
+	    <div class="form-group input-group">
+			<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+			 </div>
+	        <input name="last_name" class="form-control" placeholder="Nom" type="text">
+	    </div>
+	    <div class="form-group input-group">
+			<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+			 </div>
+	        <input name="age" class="form-control" placeholder="Age" type="text">
+	    </div>
+	    <div class="form-group input-group">
+			<input name="description" class="form-control" placeholder="Décrivez-vous en quelques mots" type="text">
+	    </div>
+	    <!-- form-group// -->
+	    <div class="form-group input-group">
+	    	<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+			 </div>
+	        <input name="email" class="form-control" placeholder="Email" type="email">
+	    </div> <!-- form-group// -->
+	    <!-- form-group// -->
+	    <div class="form-group input-group">
+	    	<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+			</div>
+			<select name="city" class="form-control">
+				<option selected=""> Sélectionner votre ville</option>
+				<% @city.each do |city| %>
+				<option><%= city.name %></option>
+				<% end %>
+			</select>
+		</div> <!-- form-group end.// -->
+	    <div class="form-group input-group">
+	    	<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+			</div>
+	        <input name="password" class="form-control" placeholder="Mot de passe" type="password">
+	    </div> <!-- form-group// -->
+	    <div class="form-group input-group">
+	    	<div class="input-group-prepend">
+			    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+			</div>
+	        <input name="repeated_password" class="form-control" placeholder="Répéter le mot de passe" type="password">
+	    </div> <!-- form-group// -->                                      
+	    <div class="form-group">
+	        <input type="submit" value="S'inscire" class="btn btn-primary btn-block"/>
+	    </div> <!-- form-group// -->      
+	    <p class="text-center">Déjà inscrit? <a href="<%= new_session_path %>">Log In</a> </p>                                                                 
+	</form>
+	</article>
+	</div> <!-- card.// -->
+	</div>
+	</div>
+<% end %>
+<!--container end.//-->

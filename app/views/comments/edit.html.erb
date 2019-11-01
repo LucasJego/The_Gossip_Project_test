@@ -1,0 +1,41 @@
+<% @comment = Comment.find(params[:id]) %>
+
+<div class="contener text-center">
+  </br></br>
+  <h2>Vous êtes sur la page d'édition du commentaire du potin "<%= @comment.potin.title %>"</h2></br>
+  <h4>Ce commentaire a été écrit par <%= @comment.user.first_name %> <%= @comment.user.last_name %>, le <%= @comment.created_at.strftime("%d/%m/%Y") %></h4></br>
+
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:fail] %> 
+    <div class="alert alert-danger" role="alert">
+      Une erreur s'est produite!
+    </div>
+  <% end %>
+</div>
+   
+
+  <%= form_tag  gossip_comment_path, method: "put" do %> 
+
+    <div class="contener">
+
+      <div class="form-group">
+        <textarea type="text" name="content"  placeholder="Ici, le potin du potin" class="form-control" rows="4"><%= @comment.content %></textarea>
+      </div>   
+
+      <div class="d-flex justify-content-center">
+        <div class="form-group row">
+        <div class="col-sm-10">
+            <input type="submit" value="Modifier" class="btn btn-primary"/>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+
+
+    <%= form_tag gossip_comment_path(@comment.id), method: "delete" do %>
+      <input type="submit" value="Supprimer" class="btn btn-danger"/>
+    <% end %>
+
+  </div>
+</div>

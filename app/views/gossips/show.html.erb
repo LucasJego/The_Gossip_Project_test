@@ -1,0 +1,102 @@
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:success] %> 
+    <div class="alert alert-success" role="alert">
+      Votre commentaire a bien été enregistré
+    </div>
+  <% end %>
+</div>
+
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:update] %> 
+    <div class="alert alert-success" role="alert">
+      Votre commentaire a bien été modifié
+    </div>
+  <% end %>
+</div>
+
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:destroy] %> 
+    <div class="alert alert-danger" role="alert">
+      Votre commentaire a bien été supprimé
+    </div>
+  <% end %>
+</div>
+
+
+</br></br>
+<div class='container text-center'>
+  <h1 class="display-5">Vous êtes sur la page particulière du potin nommé "<%= @gossip.title %>"</h1></br></br>
+
+  <ul>Un potin de <%= @gossip.user.first_name %> <%= @gossip.user.last_name %>, de la ville de <%= link_to @gossip.user.city.name, city_path(@id = @gossip.user.city.id) %>:</br>
+
+
+    <li><%= @gossip.created_at.strftime("Créé le %d/%m/%Y") %> <%= @gossip.created_at.strftime("à %H:%M")  %></li>
+    <% if @gossip.created_at  != @gossip.updated_at %>
+      <li>
+        <%= @gossip.updated_at.strftime("Mis à jour le %d/%m/%Y") %> <%= @gossip.updated_at.strftime("à %H:%M")  %>
+      </li>
+    <% end %>    
+  </ul>
+</div></br></br>
+
+<div class='container'>
+    <div class="card border-primary mb-3" style="min-width: 20rem;">
+      <div class="card-body text-center">
+          <h5 class="card-title"><%= @gossip.title %></h5>
+          <p class="card-text"><%= @gossip.content %></p>
+          <span class="badge badge-pill badge-primary">Likes: <%= @gossip.likes.count %></span></br>
+
+          <% unless session[:user_id].nil? %>
+            <% if !like?(@gossip) %>
+                <%= link_to "Like?", likes_path(@gossip.id), method: :post %>
+              <% else %>
+                <%= link_to "Dislike?", like_path(@gossip.id), method: :delete %>
+            <% end %>                      
+          <% end %></br></br>
+
+          <%= link_to 'En découvrir plus sur cet auteur.', user_path(@id = @gossip.user.id) %>
+      </div>
+          <div class="card-footer">
+            <small class="text-muted"><%= link_to 'Mettre à jour ce potin', edit_gossip_path(@id = @gossip.id) %>.</small>
+          </div>   
+    </div>
+</div>
+
+<div class="d-flex justify-content-center">
+  <%= form_tag gossip_path, method: "delete" do %>
+    <input type="submit" value="Supprimer ce potin" class="btn btn-outline-danger"/>
+  <% end %>
+</div>
+
+
+
+
+<! commments here >
+<% comments = Comment.where(potin_id: @gossip.id) %>
+
+<div class='container'>
+  <h5 class="text-center">SECTION COMMENTAIRES</h5></br>
+
+  <div class="text-center">
+    <button type="button" class="btn btn-outline-primary"><%= link_to 'Commenter', new_gossip_comment_path(@gossip.id) %></button>
+  </div></br>
+
+   <div class="d-flex justify-content-center"> 
+    <div class='card-deck'>
+      <div class="row">
+          <% comments.each do |comment| %> 
+            <div class="card border-primary mb-3" style="min-width: 20rem;">
+              <div class="card-body">
+                  <h5 class="card-title">Par <%= comment.user.first_name %> <%= comment.user.last_name %>:</h5>
+                  <p class="card-text"><%= comment.content %></p>                                
+              </div>
+              <div class="card-footer">
+                <small class="text-muted"><%= comment.created_at.strftime("Créé le %d/%m/%Y") %>.</small></br>
+                <small class="sticky-bottom"> <%= link_to 'Modifier', edit_gossip_comment_path(@gossip.id, comment.id) %></small>
+              </div>    
+            </div>
+          <% end %>
+      </div>
+    </div>
+  </div>
+</div>

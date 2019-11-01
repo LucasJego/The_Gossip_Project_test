@@ -1,0 +1,118 @@
+</br></br>
+
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:unlike] %> 
+    <div class="alert alert-success" role="alert">
+      Vous avez supprimé votre like!
+    </div>
+  <% end %>
+</div>
+
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:like] %> 
+    <div class="alert alert-success" role="alert">
+      Vous avez mis un like!
+    </div>
+  <% end %>
+</div>
+
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:disconnected] %> 
+    <div class="alert alert-danger" role="alert">
+      Vous vous êtes bien déconnecté.</br>
+      Merci de votre visite.</br>
+      A bientôt.
+    </div>
+  <% end %>
+</div>
+
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:loggin_needed] %> 
+    <div class="alert alert-danger" role="alert">
+      Vous devez être connecté pour commenter.</br>
+      Si vous n'êtes pas encore membre, inscrivez-vous.
+    </div>
+  <% end %>
+</div>
+
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:success] %> 
+    <div class="alert alert-success" role="alert">
+      Votre potin a bien été enregistré
+    </div>
+  <% end %>
+</div>
+
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:destroy] %> 
+    <div class="alert alert-danger" role="alert">
+      Le potin a bien été supprimé
+    </div>
+  <% end %>
+</div>
+
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:bad_user] %> 
+    <div class="alert alert-danger" role="alert">
+      Quand même...</br>
+      Vous ne pouvez pas faire ça aux créations des autres.
+    </div>
+  <% end %>
+</div>
+
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:inscription] %> 
+    <div class="alert alert-success" role="alert">
+      Vous êtes à présent membre de TGP
+    </div>
+  <% end %>
+</div>
+
+<div class="contener text-center" style="margin: 10px">
+  <% if flash[:login] %> 
+    <div class="alert alert-success" role="alert">
+      <%= current_user.first_name %>, vous êtes maintenant logged
+    </div>
+  <% end %>
+</div>
+
+</br></br>
+<div class='container text-center'>
+  <h1 class="display-4">Bienvenue dans le monde des potins</h1>
+</div></br></br>
+
+<div class='container text-center'>
+  <h1 class="display-6">Vous voulez créer un potin maintenant?</h1>
+  <a class="btn btn-outline-primary" href="<%= new_gossip_path %>" >Potiner</a>
+</div></br></br>
+
+<div class='container'>
+  <div class='card-deck'>
+    <div class="row">
+        <% params[:potins].each do |potin| %> 
+          <div class="card border-primary mb-3" style="min-width: 20rem;">
+            <div class="card-body">
+                <h5 class="card-title"><%= potin.title %></h5>
+                <p class="card-text">Un potin de <%= potin.user.first_name %>.</br>
+                  
+                <span class="badge badge-pill badge-primary">Likes: <%= potin.likes.count %></span></br>
+                
+                <% unless session[:user_id].nil? %>
+                    <% if !like?(potin) %>
+                        <%= link_to "Like?", likes_path(potin.id), method: :post %>
+                      <% else %>
+                        <%= link_to "Dislike?", like_path(potin.id), method: :delete %>
+                    <% end %>                      
+                <% end %></br></br>
+
+                <%= link_to 'Clique pour en savoir plus.', gossip_path(@id = potin.id) %>
+
+            </div>
+            <div class="card-footer">
+              <small class="text-muted"><%= potin.created_at.strftime("Créé le %d/%m/%Y") %>.</small>
+            </div>    
+          </div>
+        <% end %>
+    </div>
+  </div>
+</div>
